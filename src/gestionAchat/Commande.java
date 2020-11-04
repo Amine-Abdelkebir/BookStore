@@ -52,7 +52,8 @@ public class Commande {
 	// Les méthodes :
 	
 	
-	// Méthode pour calculer le montant total à payer (somme des montants pour les lignes de commande) :
+	// Méthode pour calculer le montant total à payer (somme des montants pour chaque ligne de commande) :
+	
 	public double montantAPayer(Vector<LigneCommande> tabLigneComd) {
 		double montant=0;
 		for(int i=0;i<tabLigneComd.size();i++) {

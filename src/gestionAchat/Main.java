@@ -2,6 +2,7 @@
 package gestionAchat;
 
 import java.util.Vector;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -14,6 +15,7 @@ public class Main {
 		
 		Produit P = new Produit();
 		LigneCommande LC = new LigneCommande();
+		Commande C = new Commande();
 		
 		Vector<LigneCommande> tabLigneComd = new  Vector<LigneCommande>();
 		
@@ -21,30 +23,29 @@ public class Main {
 		int reponse,quitter=0;
 		
 		
+		System.out.println(" \n ___________________ *** Bienvenue à l'application gestion d'achat *** ___________________ \n");
 		
-		System.out.println(" \n _______________ *** Bienvenue à l'application gestion d'achat *** _______________ \n");
-		
-		System.out.println(" le stock des produits est vide, Veuillez entrez au moins un produit pour utiliser l'application \n");	
+		System.out.println(" le stock des produits est vide, Veuillez entrez au moins un produit pour utiliser l'application -_- \n");	
 		
 		while(quitter == 0){
-			System.out.println("\n--------------------------------MENU--------------------------------\n");
+			System.out.println("\n----------------------------------------- MENU -----------------------------------------\n");
 			System.out.println("\nChoisir la tache a faire: \n");
 			System.out.println("\t[0] pour quitter le programme\n\n");
 			
 			System.out.println("\t[1] pour ajouter un produit\n");
 			System.out.println("\t[2] pour lister les produits\n");
-			System.out.println("\t[3] pour ajouter une ligne de commande au facture\n");
-			System.out.println("\t[4] pour voir le montant total à payer \n");
+			System.out.println("\t[3] pour ajouter un produit au panier\n");
+			System.out.println("\t[4] pour passer la commande \n");
 			
 			do{
 				System.out.println("\n->");
 				reponse=sc.nextInt(); 
 			}
-			while(reponse < 0 || reponse > 4);
+			while(reponse < 0 || reponse > 5);
 			
 			switch(reponse){
 				case 0: quitter = 1;
-					System.out.println("\n--------------------Fermeture Programme--------------------\n");
+					System.out.println("\n----------------------------------------- Fermeture Programme -----------------------------------------\n");
 					break;
 				case 1: 
 					P.ajouterProduit();
@@ -55,31 +56,58 @@ public class Main {
 						Thread.sleep(1);		
 					break;
 				case 3: 
-					// Juste un test provisoire du méthode ‘calculateTotalPrice’ :
-					System.out.println("______________________________________________________________\n");
-					Produit P1 = new Produit("ABC1234","Javel",15,2800);
-					Produit P2 = new Produit("QSD2100000","Eau",60,800);
+					Scanner sc1= new Scanner(System.in);
+					System.out.println(" Parmi les produits en stock, choissisez le produit à commander (Tapez seulement la référence de produit) : \n Réf Produit :");
+					String refProd=sc1.nextLine();
+					Produit PCommander = new Produit();
+					// Cette partie pour retourner le produit convenable avec la réf entrer par l'utilisateur: 
+					for(int i=0; i<P.tabProduit.size(); i++) {
+						if (refProd.equals(P.tabProduit.get(i).getRefProduit()) ) {
+							PCommander = P.tabProduit.get(i);
+						}
+						/*else {
+							System.out.println(" Le produit choisir hors stock ! ");
+						}*/
+					}
+					// Cette partie pour ajouter une ligne de commande au panier :
+					System.out.println(" \n Maintenant entrez la quantité de produit ["+PCommander.getDesignation()+"] à acheter : ");
+					int quantiteCommander=sc1.nextInt();
+
+					LigneCommande LCommander = new LigneCommande(PCommander,quantiteCommander);
+					 tabLigneComd.add(LCommander);
+					System.out.println(" \n => Produit Ajouté au panier avec succés ! \n\n => Le prix total de cette ligne de commande = "+LCommander.calculerPrixTotal()+" DT"+"\n");
 					
-					LigneCommande LC1 = new LigneCommande(P1,2);
-					System.out.println("// Test de méthode ‘calculateTotalPrice’ : \n\n * produit : "+P1.getDesignation()+"\n * Quantité : 2 \n\n --> Le prix total de ligne de commande = "+LC1.calculerPrixTotal()+" DT");
-					
+					// Pour affichier la liste des produits ajoutés au panier :			
+					System.out.println(" ****  La liste des produits ajoutés au panier **** \n\n" );
+					System.out.println("  Référence de Produit \t\t Désignation de Produit \t\t Quantité demandé \n\n" );
+					for(int i=0; i<tabLigneComd.size(); i++){
+						System.out.println("\t "+tabLigneComd.get(i).getP().getRefProduit()+"\t\t\t\t"+tabLigneComd.get(i).getP().getDesignation()+"\t\t\t\t\t"+tabLigneComd.get(i).getQuantite());
+					}
 					Thread.sleep(1);
 					break;
 				case 4: 
-					System.out.println("______________________________________________________________\n");
-					Produit P3 = new Produit("ABC1234","Javel",15,2800);
-					Produit P4 = new Produit("QSD2100000","Eau",60,800);
+					// Fonction Random pour générer la numéro de commande : 
+					Random r = new Random();
+					int low = 10;
+					int high = 100;
+					int numCommande = r.nextInt(high-low) + low;
+					// Fin de fonction random
+					// Partie pour entrer les caractéristiques d'une commande :
+					Scanner sc3= new Scanner(System.in);
+					System.out.println(" Pour passer la commande il faut terminer les données suivantes : \n\n  \t* Date :");
+					String date=sc3.nextLine();
+					System.out.println(" \n \t* Adresse :");
+					String adresse=sc3.nextLine();
+
+					Commande Cmd = new Commande(numCommande,date,adresse);
 					
-					LigneCommande LC3 = new LigneCommande(P3,2); //LigneCommande(Produit,quantite);
-					LigneCommande LC4 = new LigneCommande(P4,10);
-					
-					Vector<LigneCommande> tabLigneComd1 = new  Vector<LigneCommande>();
-					tabLigneComd1.add(LC3);
-					tabLigneComd1.add(LC4);
-					
-					Commande C1 = new Commande(12547,"03/11/2020","Sousse, Sahloul");
-					System.out.println(" Le montant total à payer pour la commande du référence : "+C1.getNumCommande()+" égal "+C1.montantAPayer(tabLigneComd1)+" DT");
-					
+					// Affichage de Facture :
+					System.out.println(" \n-------------------------------------------------- Facture -------------------------------------------------- \n");
+					System.out.println(" \t\t  * Numéro de commande : "+Cmd.getNumCommande()+"\n");
+					System.out.println(" \t\t  * Adresse : "+Cmd.getAdresseCommande()+"\n");
+					System.out.println(" \t\t  * Date : "+Cmd.getDate()+"\n\n");
+					System.out.println(" \t \t \t Montant total à payer = "+Cmd.montantAPayer(tabLigneComd)+" DT \n\n");
+					System.out.println("------------------------------------------------- ******* --------------------------------------------------\n");
 					Thread.sleep(1);
 					break;
 				default : Thread.sleep(1);
@@ -90,6 +118,5 @@ public class Main {
 	}
 
 }
- 
 
 

@@ -37,10 +37,10 @@ public class LigneCommande {
 	public void setP(Produit p) {
 		P = p;
 	}
-
-	// Les méthodes :
+	
 	
 	// Méthode ‘calculateTotalPrice’ :
+	
 	public double calculerPrixTotal() {
 		double montant=this.P.getPrixUnitaire()*this.quantite;
 		return montant;
