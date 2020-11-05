@@ -96,4 +96,24 @@ public class Produit {
         }
 	}
 	
+	public void supprimerProduit() {
+		Produit ProdSupp = new Produit();
+        Scanner sc= new Scanner(System.in);
+        System.out.println(" ****  Supprimer un produit  **** \n\n* Réf produit :" );
+        String refProduit=sc.nextLine();
+        
+		for(int i=0; i<this.tabProduit.size(); i++) {
+			if (refProduit.equals(this.tabProduit.get(i).getRefProduit()) ) {
+				ProdSupp = this.tabProduit.get(i);
+			}
+		}
+		if (ProdSupp instanceof Produit && refProduit.equals(ProdSupp.getRefProduit()) ) {
+			this.tabProduit.remove(ProdSupp);
+			System.out.println(" \n Produit supprimé avec succés ! " );
+		}
+		else System.out.println(" \n Le produit choisi introuvable ! ");      
+	}
+	
 }
+
+

@@ -6,7 +6,7 @@ public class Administrateur extends Personne{
 		super();
 	}
 	
-	Administrateur (long login, String nom, String prenom, String role, String motDePasse){
+	Administrateur (String login, String nom, String prenom, String role, String motDePasse){
 		super(login,nom,prenom,role,motDePasse);
 	}
 }

@@ -1,20 +1,22 @@
 package gestionAchat;
 
+import java.util.Scanner;
+
 public class Personne {
 
 	// Les attributs :
-	private long login;
-	private String nom, prenom, role, motDePasse;
+	
+	private String nom, prenom, role, motDePasse, login;
 	
 	// Les constructeurs :
 	Personne (){
-		this.login=0;
+		this.login="";
 		this.nom="";
 		this.prenom="";
 		this.role="";
 		this.motDePasse="";
 	}
-	Personne (long login, String nom, String prenom, String role, String motDePasse){
+	Personne (String login, String nom, String prenom, String role, String motDePasse){
 		this.login=login;
 		this.nom=nom;
 		this.prenom=prenom;
@@ -23,10 +25,10 @@ public class Personne {
 	}
 	
 	// Getters & Setters :
-	public long getLogin() {
+	public String getLogin() {
 		return login;
 	}
-	public void setLogin(long login) {
+	public void setLogin(String login) {
 		this.login = login;
 	}
 	public String getNom() {
@@ -52,18 +54,6 @@ public class Personne {
 	}
 	public void setMotDePasse(String motDePasse) {
 		this.motDePasse = motDePasse;
-	}
-	
-	// les méthodes :
-	
-	public void login(long login, String motDePasse){
-
-		if(login==this.login && motDePasse==this.motDePasse) {
-			System.out.println("Vous etes connectez !");
-		}
-		else if (login!=this.login || motDePasse!=this.motDePasse) {
-			System.out.println("Login ou mot de passe incorrecte !");
-		}
 	}
 	
 }

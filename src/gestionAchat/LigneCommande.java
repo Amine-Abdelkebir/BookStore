@@ -45,5 +45,5 @@ public class LigneCommande {
 		double montant=this.P.getPrixUnitaire()*this.quantite;
 		return montant;
 	}
-	
+
 }

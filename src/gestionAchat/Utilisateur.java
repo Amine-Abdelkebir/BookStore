@@ -8,7 +8,7 @@ public class Utilisateur extends Personne {
 		super();
 	}
 	
-	Utilisateur (long login, String nom, String prenom, String role, String motDePasse){
+	Utilisateur (String login, String nom, String prenom, String role, String motDePasse){
 		super(login,nom,prenom,role,motDePasse);
 	}
 	 

@@ -8,8 +8,6 @@ public class Commande {
 	private long numCommande;
 	private String date,adresseCommande;
 	Vector<LigneCommande> tabLigneComd = new  Vector<LigneCommande>();
-	Vector<Commande> tabCommandes = new  Vector<Commande>();
-	public Produit p;
 	
 	// Constructeurs :
 	Commande(){
