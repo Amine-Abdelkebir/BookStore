@@ -1,5 +1,10 @@
 package gestionAchat;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Random;
+import java.util.Scanner;
 import java.util.Vector;
 
 public class Commande {
@@ -7,7 +12,7 @@ public class Commande {
 	// Les attributs :
 	private long numCommande;
 	private String date,adresseCommande;
-	Vector<LigneCommande> tabLigneComd = new  Vector<LigneCommande>();
+	LigneCommande LigneComd;
 	
 	// Constructeurs :
 	Commande(){
@@ -49,15 +54,60 @@ public class Commande {
 	
 	// Les méthodes :
 	
-	
-	// Méthode pour calculer le montant total à payer (somme des montants pour chaque ligne de commande) :
-	
-	public double montantAPayer(Vector<LigneCommande> tabLigneComd) {
-		double montant=0;
-		for(int i=0;i<tabLigneComd.size();i++) {
-			montant=montant+tabLigneComd.get(i).calculerPrixTotal();
-		}
-		return montant;
+	// Méthode pour afficher la liste de commande enregistré dans la base des données :
+	public void listeCommande() throws ClassNotFoundException, SQLException {
+
+        Statement stmt =null;
+        
+        MyConnection maC = new MyConnection();
+        stmt = maC.getC().createStatement();
+        
+        ResultSet rs = stmt.executeQuery("SELECT numCommande FROM commande");
+        
+        System.out.println("\n\n \t ****** La liste des commandes ****** \n\n \t Numéro commande");
+        while(rs.next()){      	 
+        	System.out.println("\t     #"+rs.getString("numCommande")+"");
+        }
 	}
 	
+	// Méthode pour calculer montant total d'une commande (Facture) :
+	public void montantAPayer(String numCmd) throws ClassNotFoundException, SQLException {
+        Statement stmt =null;
+        
+        MyConnection maC = new MyConnection();
+        stmt = maC.getC().createStatement();
+        
+        ResultSet rs1 = stmt.executeQuery("SELECT SUM(LC.quantite*L.prixUnitaire) AS PrixTotal FROM lignecommande LC, livres L WHERE LC.numCommande='"+numCmd+"' AND LC.refLivre=L.refLivre");
+                
+        while(rs1.next()){
+        	System.out.println(" \t \t \t Montant total à payer = "+rs1.getString("PrixTotal")+" DT \n\n");
+        }
+	}
+	
+	// Méthode affiche facture :
+	public void afficheFacture() throws ClassNotFoundException, SQLException {
+		
+	    Scanner sc= new Scanner(System.in);
+        System.out.println("\n --> Pour voir la facture, s'il vous plait tapez le numéro de commande :" );
+        String numCmd=sc.nextLine();
+        
+        Statement stmt =null;
+        
+        MyConnection maC = new MyConnection();
+        stmt = maC.getC().createStatement();
+        
+        ResultSet rs = stmt.executeQuery("SELECT * FROM commande WHERE numCommande='"+numCmd+"'");
+                
+        while(rs.next()){
+        	
+    		System.out.println(" \n\n-------------------------------------------------- Facture -------------------------------------------------- \n");
+    		System.out.println(" \t\t  * Numéro de commande : #"+rs.getString(1)+"\n");
+    		System.out.println(" \t\t  * Adresse : "+rs.getString(3)+"\n");
+    		System.out.println(" \t\t  * Date : "+rs.getString(2)+"\n\n");       	
+    		montantAPayer(numCmd);
+    		System.out.println("-------------------------------------------------- ******* --------------------------------------------------\n");
+        }
+	}
+	
+
 }
