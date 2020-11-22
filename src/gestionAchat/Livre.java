@@ -11,7 +11,6 @@ public class Livre {
 	private int quantite;
 	private long prixUnitaire;
 	
-	
 	// Constructeur :
 	Livre (){
 		this.refLivre="";
@@ -110,6 +109,56 @@ public class Livre {
         	String req = "insert into livres values( '" +refLivre + "', '"+ titre + "','"+ auteur + "','"+ dateSortie + "'," +quantite + ", " + prixUnitaire + ")";
         	stmt.executeUpdate(req);
         	System.out.println(" \n Le livre est ajouté avec succés " );
+        }
+	}
+	
+	// Méthode modifier livre :
+	public void modifierLivre() throws ClassNotFoundException, SQLException {
+		
+        Statement stmt =null;     
+        MyConnection maC = new MyConnection();
+        stmt = maC.getC().createStatement();
+        
+        Scanner sc= new Scanner(System.in);
+        System.out.println(" -->  La référence de livre qui vous voulez modifier : \n" );
+        String refLivre=sc.nextLine();
+        
+        // Affichage de caractéristiques existantes pour le livre :
+        ResultSet rs = stmt.executeQuery("select * from livres WHERE refLivre='"+refLivre+"'");
+        while(rs.next()){
+			System.out.println(" -->  Les caractéristiques existantes :\n" );
+			System.out.println(" * Réf Livre : "+rs.getString(1));
+			System.out.println("\n * Titre de livre : "+rs.getString(2));
+			System.out.println("\n * Auteur de livre : "+rs.getString(3));
+			System.out.println("\n * Date de sortie : "+rs.getString(4));
+			System.out.println("\n * Quantite de stock : "+rs.getString(5));
+			System.out.println("\n * Prix unitaire : "+rs.getString(6));
+			System.out.println("____________________________________________________________________ \n");       
+        }
+       
+        // Changement des données : 
+        System.out.println(" \n **********  Modification de livre  ********** \n\n --> Vous etes sur le point de modifier les caractéristiques de livre, donc tapez les nouveaux caratéristiques : \n\n * Réf livre : " );                        
+        String newRefLivre=sc.nextLine();
+        System.out.println(" * Titre de livre :");
+        String titre=sc.nextLine();
+        System.out.println(" * Nom d'auteur :");
+        String auteur=sc.nextLine();
+        System.out.println(" * Date de sortie (jj/mm/aaaa) :");
+        String dateSortie=sc.nextLine();
+        System.out.println(" * Quantité de stock : ");
+        int quantite=sc.nextInt();
+        System.out.println(" * Prix unitaire : ");
+        int prixUnitaire=sc.nextInt();
+        
+        // Test de connectivité :
+        if(maC == null){
+            System.out.println(" \n Problème de connexion à la source de données...");
+        }else{
+            // Requette de modification :
+        	stmt = maC.getC().createStatement();
+        	String req = "UPDATE livres SET refLivre = '"+newRefLivre+"',titre = '"+titre+"',auteur ='"+auteur+"',dateSortie ='"+dateSortie+"',quantite ="+quantite+",prixUnitaire ="+prixUnitaire+" WHERE refLivre='"+refLivre+"'";
+        	stmt.executeUpdate(req);
+        	System.out.println(" \n --> Le livre est modifié avec succés -_-" );
         }
 	}
 	

@@ -62,12 +62,35 @@ public class Commande {
         MyConnection maC = new MyConnection();
         stmt = maC.getC().createStatement();
         
-        ResultSet rs = stmt.executeQuery("SELECT numCommande FROM commande");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM commande");
         
-        System.out.println("\n\n \t ****** La liste des commandes ****** \n\n \t Numéro commande");
+        System.out.println("\n\n \t ****** La liste des commandes ****** \n\n");
         while(rs.next()){      	 
-        	System.out.println("\t     #"+rs.getString("numCommande")+"");
+        	System.out.println("\t         #"+rs.getString("numCommande")+" | "+rs.getString("adresse")+"\n");
         }
+	}
+	
+	// Méthode pour supprimer une commande :
+	public void supprimerCommande() throws ClassNotFoundException, SQLException {
+		Scanner sc1= new Scanner(System.in);
+        Statement stmt =null;
+        
+        MyConnection maC = new MyConnection();
+        stmt = maC.getC().createStatement();
+        
+        ResultSet rs = stmt.executeQuery("SELECT * FROM commande");
+        System.out.println("\n\n \t ****** liste des commandes validées ****** \n");
+        while(rs.next()){      	 
+        	System.out.println("\n \t         #"+rs.getString("numCommande")+" | "+rs.getString("adresse")+"\n");
+        }
+        
+        System.out.println("\n --> Parmi les commandes au dessus, tapez le numéro de commande qui vous voulez supprimer \n\n * N° Commande :");
+        long numCmd=sc1.nextLong();
+        // Suppression :
+    	stmt = maC.getC().createStatement();
+    	String req = "DELETE FROM commande WHERE numCommande='"+numCmd+"'";
+    	stmt.executeUpdate(req);
+    	System.out.println(" \n La commande est supprimée avec succés !" );
 	}
 	
 	// Méthode pour calculer montant total d'une commande (Facture) :
@@ -109,5 +132,4 @@ public class Commande {
         }
 	}
 	
-
 }

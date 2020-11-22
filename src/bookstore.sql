@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : jeu. 12 nov. 2020 à 13:49
+-- Généré le : Dim 22 nov. 2020 à 00:07
 -- Version du serveur :  5.7.24
 -- Version de PHP : 7.2.19
 
@@ -40,7 +40,7 @@ CREATE TABLE `commande` (
 
 INSERT INTO `commande` (`numCommande`, `date`, `adresse`) VALUES
 ('230555', '15/11/2020', 'Tunis'),
-('514984', '12/11/2020', 'Zarzis'),
+('514984', '12/11/2020', 'Sousse'),
 ('815538', '13/11/2020', 'Paris');
 
 -- --------------------------------------------------------
@@ -60,8 +60,6 @@ CREATE TABLE `lignecommande` (
 --
 
 INSERT INTO `lignecommande` (`refLivre`, `numCommande`, `quantite`) VALUES
-('123', '230555', 3),
-('123', '514984', 2),
 ('456', '514984', 3),
 ('456', '815538', 2),
 ('789', '230555', 2),
@@ -87,9 +85,9 @@ CREATE TABLE `livres` (
 --
 
 INSERT INTO `livres` (`refLivre`, `titre`, `auteur`, `dateSortie`, `quantite`, `prixUnitaire`) VALUES
-('123', 'Livre1', 'Amine', '15/07/2008', 75, 15500),
-('456', 'Livre2', 'Ahmed', '30/05/1995', 12, 14000),
-('789', 'Livre3', 'Khalil', '02/12/2015', 23, 6500);
+('123', 'Livre1', 'Amine', '12/11/2020', 18, 15550),
+('456', 'Livre2', 'Ahmed', '30/05/1995', 47, 14000),
+('789', 'Livre3', 'Khalil', '02/12/2015', 33, 6500);
 
 --
 -- Index pour les tables déchargées
@@ -122,8 +120,8 @@ ALTER TABLE `livres`
 -- Contraintes pour la table `lignecommande`
 --
 ALTER TABLE `lignecommande`
-  ADD CONSTRAINT `fk_num_commande` FOREIGN KEY (`numCommande`) REFERENCES `commande` (`numCommande`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_ref_livre` FOREIGN KEY (`refLivre`) REFERENCES `livres` (`refLivre`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_num_commande` FOREIGN KEY (`numCommande`) REFERENCES `commande` (`numCommande`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_ref_livre` FOREIGN KEY (`refLivre`) REFERENCES `livres` (`refLivre`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
